@@ -83,7 +83,8 @@ function getTask(){
 								<span class="blue-text text-darken-2 card-info">${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}</span>
 							</div>
 							<div class="card-action">
-								<a href="#" class="card-action-right" onclick="removeTask('${task._id}')">Remove Task</a>
+							<a href="#" class="card-action-right" onclick="updateTask('${task._id}','0')">Uncomplete Task</a> <br>
+								<a href="#" class="card-action-right" onclick="removeTask('${task._id}')">Remove Task</a> 
 							</div>
 						</div>
 						<!-- End of card -->
@@ -101,7 +102,7 @@ function getTask(){
 						<span class="blue-text text-darken-2 card-info">${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}</span>
 					</div>
 					<div class="card-action">
-						<a href="#" onclick="doneTask('${task._id}','1')">Done Task</a>
+						<a href="#" onclick="updateTask('${task._id}','1')">Complete Task</a>
 					</div>
 				</div>
 			</div>`)
@@ -123,7 +124,7 @@ function showTask(id){
 }
 getTask()
 
-function doneTask(taskId, status) {
+function updateTask(taskId, status) {
 	$.ajax({
 			method: 'PUT',
 			url: `http://localhost:3000/api/edit-todo?token=${token}`,

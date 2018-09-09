@@ -5,10 +5,15 @@
     <meta charset="UTF-8">
     <title>Sign Up</title>
     <meta name="viewport" content="width=device-width">
+    <meta name="google-signin-client_id" content="72767653243-i8hgr8kd562ba7n84dmj27iebs3hla3m.apps.googleusercontent.com">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/notifikasi.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -53,6 +58,30 @@
             });
 
         }
+
+        // GOOGLE LOGIN
+        function onSignIn(googleUser) {
+            let token = googleUser.Zi.id_token
+            var profile = googleUser.getBasicProfile();
+            let userGoogle = {
+                
+            }
+            let name = profile.getName()
+            let email = profile.getEmail()
+            $.ajax({
+                method: 'GET',
+                url: `http://localhost:3000/loginWithGoogle?token=${token}`
+            })
+            .done(function(result){
+                localStorage.setItem('token', result.token)
+                localStorage.setItem('name', result.name)
+                window.location.replace('http://localhost:8080')
+            })
+            .fail(function(err){
+                console.log(err)
+            })
+        }
+
         function logout() {
             localStorage.clear()
         }
@@ -68,19 +97,43 @@
 
                 <div class='welcome'><b>Register</b></div>
                 <div class='subtitle'> “Always remember your to-do list.”</div>
-                <form action="http://localhost:3000/register" method="POST">
+                <form>
                     <div class='input-fields'>
-                        <input type='text' placeholder='Name' name="name" class='input-line full-width' required></input>
-                        <input type='email' placeholder='Email' name="email" class='input-line full-width' required></input>
-                        <input type='password' placeholder='Password' name="password" class='input-line full-width' required></input>
+                        <input type='text' placeholder='Name' id="name" class='input-line full-width'>
+                        <input type='email' placeholder='Email' id="email" class='input-line full-width'>
+                        <input type='password' placeholder='Password' id="password" class='input-line full-width'>
                     </div>
                     <div class='spacing'>Already have an account? <span class='highlight' onclick="loginPage()">Login</span>
-                        or continue with <span class='highlight' onclick="checkLoginState()">Facebook</span>
+                        or continue with <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+                        <center>
+                            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                        </center>
                     </div>
                     <div>
-                        <button class='ghost-round full-width' type="submit">Create Account</button>
+                        <input type="button" class='ghost-round full-width' value="Sign Up" id="register">
+
                     </div>
                 </form>
+                <div id="notification">
+                        <div class="toast__container">
+                            <div class="toast__cell">
+                                <div class="toast toast--yellow add-margin">
+                                    <div class="toast__icon">
+                                    </div>
+                                    <div class="toast__content">
+                                        <p class="toast__type">Failed to Register</p>
+                                        <p class="toast__message">You have entered an invalid email or email already taken.</p>
+                                    </div>
+                                    <div class="toast__close">
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.642 15.642"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 15.642 15.642">
+                                            <path fill-rule="evenodd" d="M8.882,7.821l6.541-6.541c0.293-0.293,0.293-0.768,0-1.061  c-0.293-0.293-0.768-0.293-1.061,0L7.821,6.76L1.28,0.22c-0.293-0.293-0.768-0.293-1.061,0c-0.293,0.293-0.293,0.768,0,1.061  l6.541,6.541L0.22,14.362c-0.293,0.293-0.293,0.768,0,1.061c0.147,0.146,0.338,0.22,0.53,0.22s0.384-0.073,0.53-0.22l6.541-6.541  l6.541,6.541c0.147,0.146,0.338,0.22,0.53,0.22c0.192,0,0.384-0.073,0.53-0.22c0.293-0.293,0.293-0.768,0-1.061L8.882,7.821z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -90,6 +143,42 @@
         if (token) {
             window.location.replace('http://localhost:8080')
         }
+
+        $('#notification').hide()
+        jQuery(document).ready(function () {
+            jQuery('.toast__close').click(function (e) {
+                $('#notification').hide()
+                // e.preventDefault();
+                // var parent = $(this).parent('.toast');
+                // parent.fadeOut("slow", function () {
+                // $(this).remove();
+                // });
+            });
+        });
+
+        $('#register').click(function (event) {
+            let name = $('#name').val()
+            let email = $('#email').val()
+            let password = $('#password').val()
+            $.ajax({
+                method: 'POST',
+                url: 'http://localhost:3000/register',
+                data: {
+                    name:name,
+                    email:email,
+                    password:password
+                }
+            })
+            .done(function(){
+                window.location.replace('http://localhost:8080/login')
+            })
+            .fail(function(err){
+                // console.log(err)
+                $('#notification').show()
+                $('#notification').effect('shake',{distance:10},)
+                $('#notification').fadeOut(8000)
+            })
+        })
     </script>
 </body>
 
