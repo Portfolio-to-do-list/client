@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google-signin-client_id" content="72767653243-i8hgr8kd562ba7n84dmj27iebs3hla3m.apps.googleusercontent.com">
+    <title>iOS style sliding menu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css'>
+
+
+
+</head>
+<style>
+    div#content {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 60px;
+        overflow: scroll;
+        background-color: azure;
+        background-image: url('https://picsum.photos/720/1280/?random');
+        background-size: cover;
+        background-repeat: no-repeat;
+        border-radius: 0;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -moz-box-shadow: -3px 0 6px #4a5562;
+        -webkit-box-shadow: -3px 0 6px #4a5562;
+        box-shadow: -3px 0 6px #4a5562;
+        -moz-transition: all 300ms;
+        -webkit-transition: all 300ms;
+        transition: all 300ms;
+    }
+
+    .modal-create {
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        padding-top: 100px;
+        /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    input[type=test], date, textarea {
+        width: 40%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+    }
+</style>
+
+<script>
+    function showModalCreate(){
+        $('#myModal').show()
+    }
+
+    function hideModalCreate(){
+        $('#myModal').hide()
+    }
+    
+</script>
+
+<body>
+    <!-- Navigation -->
+    <nav id="slide-menu">
+        
+    </nav>
+    <!-- Content panel -->
+    <div id="content">
+        <div class="menu-trigger"></div>
+        <center>
+            <h1>To Do Harus</h1>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="todolist not-done">
+                            <h1 class="title">Todos</h1>
+                            <!-- <input type="text" class="form-control add-todo" name="todo" placeholder="Add todo" id="form"> -->
+                            <!-- Open Modal -->
+                            <button onclick="showModalCreate()">Add Todo</button>
+                            <div id="myModal" class="modal-create">
+                                <!-- Modal content -->
+                                <div class="modal-content">
+                                    <span class="close" onclick="hideModalCreate()">&times;</span>
+                                    <input type="text" placeholder="Name To-do" class="col-25" id="name"> <br>
+                                    <textarea id="description" class="materialize-textarea" placeholder="description...."></textarea>
+                                    <br>
+                                    <input type="date" id="date"> <br>
+                                    <button id="createTodo">Create Task</button>
+                                    <!-- <p>Some text in the Modal..</p> -->
+                                </div>
+                            </div>
+                            <hr>
+                            <div id="sortable" class="list-unstyled">
+
+                            </div>
+
+
+
+
+                            <!-- Page Layout here -->
+                            <div class="row">
+                                <div class="col s0 m0 l2">&nbsp</div>
+
+                                <!-- Cards container -->
+
+                                <div class="col s12 m12 l8">
+                                    <div class="row" id="cards">
+                                        <!-- Col: Card 1 -->
+                                        <div class="col s12 m6 l4">
+                                            <!-- Card 1 -->
+                                            <div class="card">
+                                                <div class="card-content white-text">
+                                                    <div class="card__date">
+                                                        <span class="card__date__day">23</span>
+                                                        <span class="card__date__month">Mai</span>
+                                                    </div>
+                                                    <span class="card-title grey-text text-darken-4">Savoy swing up</span>
+
+                                                    <p class="card-subtitle grey-text text-darken-2">Lorem ipsum dolor
+                                                        sit amet, consectetur adipiscing elit. Mauris sagittis
+                                                        pellentesque lacus eleifend lacinia...lacus eleifend lacinia...
+                                                        go!</p>
+                                                    <span class="blue-text text-darken-2 card-info">lindy hop, balboa,
+                                                        charleston</span>
+                                                </div>
+                                                <div class="card-action">
+                                                    <a href="#" class="card-action-right">Done Task</a>
+                                                </div>
+                                            </div>
+                                            <!-- End of card -->
+                                        </div>
+                                        <!-- End of col -->
+                                        <!-- Col: Card 1 -->
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            <div class="todo-footer">
+                                <strong><span class="count-todos"></span></strong> Items Left
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="todolist">
+                            <h1>Already Done</h1>
+                            <ul id="done-items" class="list-unstyled">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div id="quotes"></div>
+        </center>
+    </div>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
+
+<!-- https://picsum.photos/1920/1080/?random -->

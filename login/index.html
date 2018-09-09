@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="google-signin-client_id" content="72767653243-i8hgr8kd562ba7n84dmj27iebs3hla3m.apps.googleusercontent.com">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../css/notifikasi.css">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+</head>
+
+<body>
+    <script>
+        // FACEBOOK LOGIN
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1530583363709350',
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v3.1'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        function checkLoginState() {
+            FB.getLoginStatus(function (response) {
+                let token = response.authResponse.accessToken
+                $.ajax({
+                        method: 'POST',
+                        url: 'http://localhost:3000/loginWithFacebook',
+                        data: {
+                            token: token
+                        }
+                })
+                .done(result => {
+                    localStorage.setItem('token', result.token)
+                    localStorage.setItem('name', result.user.name)
+                    window.location.replace('http://localhost:8080')
+                })
+                .fail(err => {
+                    alert(JSON.stringify(err))
+                })
+            });
+
+        }
+        
+        // GOOGLE LOGIN
+        function onSignIn(googleUser) {
+            let token = googleUser.Zi.id_token
+            var profile = googleUser.getBasicProfile();
+            let userGoogle = {
+                
+            }
+            let name = profile.getName()
+            let email = profile.getEmail()
+            $.ajax({
+                method: 'GET',
+                url: `http://localhost:3000/loginWithGoogle?token=${token}`
+            })
+            .done(function(result){
+                localStorage.setItem('token', result.token)
+                localStorage.setItem('name', result.name)
+                window.location.replace('http://localhost:8080')
+            })
+            .fail(function(err){
+                console.log(err)
+            })
+        }
+        // https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=<token_id>
+
+        function logout() {
+            localStorage.clear()
+        }
+        function registerPage(){
+            window.location.replace('http://localhost:8080/register/')
+            
+        }
+    </script>
+    <script src="../js/notifikasi.js" charset="utf-8">
+        jQuery(document).ready(function () {
+            jQuery('.toast__close').click(function (e) {
+                e.preventDefault();
+                var parent = $(this).parent('.toast');
+                parent.fadeOut("slow", function () {
+                $(this).remove();
+                });
+            });
+        });
+    </script>
+​
+    <div class='container'>
+        <div class='window'>
+            <div class='overlay'></div>
+            <div class='content'>
+
+                <div class='welcome'><b>Login</b></div>
+                <div class='subtitle'> “The only thing more important than your to-do list is your to-be list. The
+                    only thing more important than your to-be list is to be.~”</div>
+                <form>
+                    <!-- <input type="button"> -->
+                    <div class='input-fields'>
+                        <input type='text' placeholder='Email' id="email" class='input-line full-width'>
+                        <input type='password' placeholder='Password' id="password" class='input-line full-width'>
+                    </div>
+                    <div class='spacing'>Dont have an account? <span class='highlight' onclick="registerPage()">Register</span><br>
+                        or continue with <span class='highlight' onclick="checkLoginState()">Facebook </span> and <br>
+                        <center>
+                            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                        </center>
+                    </div>
+                    <div>
+                        <input type="button" class='ghost-round full-width' value="Sign In" id="login">
+                        <!-- <button class='ghost-round full-width' onclick="signIn()">Sign In</button> -->
+                    </div>
+                </form>
+                <div id="notification">
+                    <div class="toast__container">
+                        <div class="toast__cell">
+                            <div class="toast toast--yellow add-margin">
+                                <div class="toast__icon">
+                                </div>
+                                <div class="toast__content">
+                                    <p class="toast__type">Failed to Login</p>
+                                    <p class="toast__message">You have entered an invalid email or password.</p>
+                                </div>
+                                <div class="toast__close">
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.642 15.642"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 15.642 15.642">
+                                        <path fill-rule="evenodd" d="M8.882,7.821l6.541-6.541c0.293-0.293,0.293-0.768,0-1.061  c-0.293-0.293-0.768-0.293-1.061,0L7.821,6.76L1.28,0.22c-0.293-0.293-0.768-0.293-1.061,0c-0.293,0.293-0.293,0.768,0,1.061  l6.541,6.541L0.22,14.362c-0.293,0.293-0.293,0.768,0,1.061c0.147,0.146,0.338,0.22,0.53,0.22s0.384-0.073,0.53-0.22l6.541-6.541  l6.541,6.541c0.147,0.146,0.338,0.22,0.53,0.22c0.192,0,0.384-0.073,0.53-0.22c0.293-0.293,0.293-0.768,0-1.061L8.882,7.821z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let token = localStorage.getItem('token')
+        if (token) {
+            window.location.replace('http://localhost:8080')
+        }
+
+        $('#notification').hide()
+
+        $('#login').click(function (event) {
+            let email = $('#email').val()
+            let password = $('#password').val()
+            $.ajax({
+                    method: 'POST',
+                    url: 'http://localhost:3000/login',
+                    data: {
+                        email: email,
+                        password: password
+                    }
+                })
+                .done(function (data) {
+                    window.location.replace('http://localhost:8080')
+                    localStorage.setItem('name', data.user.name)
+                    localStorage.setItem('token', data.token)
+                })
+                .fail(function (err) {
+                    $('#notification').show()
+                })
+        })
+    </script>
+</body>
+
+</html>

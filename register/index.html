@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1530583363709350',
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v3.1'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        function checkLoginState() {
+            FB.getLoginStatus(function (response) {
+                let token = response.authResponse.accessToken
+                $.ajax({
+                        method: 'POST',
+                        url: 'http://localhost:3000/loginWithFacebook',
+                        data: {
+                            token: token
+                        }
+                })
+                .done(result => {
+                    localStorage.setItem('token', result.token)
+                    window.location.replace('http://localhost:8080')
+                })
+                .fail(err => {
+                    alert(JSON.stringify(err))
+                })
+            });
+
+        }
+        function logout() {
+            localStorage.clear()
+        }
+        function loginPage(){
+            window.location.replace('http://localhost:8080/login/')            
+        }
+    </script>
+    <div class='bold-line'></div>
+    <div class='container'>
+        <div class='window'>
+            <div class='overlay'></div>
+            <div class='content'>
+
+                <div class='welcome'><b>Register</b></div>
+                <div class='subtitle'> “Always remember your to-do list.”</div>
+                <form action="http://localhost:3000/register" method="POST">
+                    <div class='input-fields'>
+                        <input type='text' placeholder='Name' name="name" class='input-line full-width' required></input>
+                        <input type='email' placeholder='Email' name="email" class='input-line full-width' required></input>
+                        <input type='password' placeholder='Password' name="password" class='input-line full-width' required></input>
+                    </div>
+                    <div class='spacing'>Already have an account? <span class='highlight' onclick="loginPage()">Login</span>
+                        or continue with <span class='highlight' onclick="checkLoginState()">Facebook</span>
+                    </div>
+                    <div>
+                        <button class='ghost-round full-width' type="submit">Create Account</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let token = localStorage.getItem('token')
+        if (token) {
+            window.location.replace('http://localhost:8080')
+        }
+    </script>
+</body>
+
+</html>
