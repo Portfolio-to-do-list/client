@@ -126,7 +126,7 @@
                             <button onclick="showModalCreate()">Add Todo</button>
                             <div id="myModal" class="modal-create">
                                 <!-- Modal content -->
-                                <div class="modal-content">
+                                <div class="modal-content" style="z-index:1;">
                                     <span class="close" onclick="hideModalCreate()">&times;</span>
                                     <input type="text" placeholder="Name To-do" class="col-25" id="name"> <br>
                                     <textarea id="description" class="materialize-textarea" placeholder="description...."></textarea>
@@ -151,7 +151,7 @@
                                 <!-- Cards container -->
 
                                 <div class="col s12 m12 l8">
-                                    <div class="row" id="cards">
+                                    <div class="row" id="notDoneYet">
                                         <!-- Col: Card 1 -->
                                         <div class="col s12 m6 l4">
                                             <!-- Card 1 -->
@@ -208,9 +208,42 @@
                     <div class="col-md-6">
                         <div class="todolist">
                             <h1>Already Done</h1>
-                            <ul id="done-items" class="list-unstyled">
+                            <div class="row">
+                                <div class="col s0 m0 l2">&nbsp</div>
 
-                            </ul>
+                                <!-- Cards container -->
+
+                                <div class="col s12 m12 l8">
+                                    <div class="row" id="doneTask">
+                                        <!-- Col: Card 1 -->
+                                        <div class="col s12 m6 l4">
+                                            <!-- Card 1 -->
+                                            <div class="card">
+                                                <div class="card-content white-text">
+                                                    <div class="card__date">
+                                                        <span class="card__date__day">23</span>
+                                                        <span class="card__date__month">Mai</span>
+                                                    </div>
+                                                    <span class="card-title grey-text text-darken-4">Savoy swing up</span>
+
+                                                    <p class="card-subtitle grey-text text-darken-2">Lorem ipsum dolor
+                                                        sit amet, consectetur adipiscing elit. Mauris sagittis
+                                                        pellentesque lacus eleifend lacinia...lacus eleifend lacinia...
+                                                        go!</p>
+                                                    <span class="blue-text text-darken-2 card-info">lindy hop, balboa,
+                                                        charleston</span>
+                                                </div>
+                                                <div class="card-action">
+                                                    <a href="#" class="card-action-right">Done Task</a>
+                                                </div>
+                                            </div>
+                                            <!-- End of card -->
+                                        </div>
+                                        <!-- End of col -->
+                                        <!-- Col: Card 1 -->
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,3 +1,4 @@
+
 /*
   Slidemenu
 */
@@ -66,39 +67,32 @@ function getTask(){
 	.done(function (tasks) {
 		let totalLeft = 0
 		// for
-		$('#done-items').text('')
-		$('#cards').text('')
+		$('#doneTask').text('')
+		$('#notDoneYet').text('')
 		tasks.forEach(task => {
+			let date = new Date(task.dueDate)
 			if (task.status) {
-				$('#done-items').append(
+				$('#doneTask').append(
 					`
-					<li> ${task.name} <button class="remove-item btn btn-default btn-xs pull-right" onclick="removeTask('${task._id}')">X</button></li>
+					<div class="col s12 m6 l4">
+						<!-- Card 1 -->
+						<div class="card">
+							<div class="card-content white-text">
+								<span class="card-title grey-text text-darken-4">${task.name}</span>
+								<p class="card-subtitle grey-text text-darken-2">${task.description}</p>
+								<span class="blue-text text-darken-2 card-info">${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}</span>
+							</div>
+							<div class="card-action">
+								<a href="#" class="card-action-right" onclick="removeTask('${task._id}')">Remove Task</a>
+							</div>
+						</div>
+						<!-- End of card -->
+					</div>
 					`
 				)
 			} else {
 				totalLeft += 1
-				let date = new Date(task.dueDate)
-				// console.log(task.dueDate.getFullYear());
-				
-				// $('#sortable').append(
-				// 	`
-				// 	<label onclick="showTask('${task._id}')" value="${task._id}" style="cursor: pointer;"><h4>${task.name}</h4></label> <br>
-				// 	<div class="modal-create" id="${task._id}">
-				// 		<!-- Modal content -->
-				// 		<div class="modal-content">
-				// 			<span class="close" onclick="hideTask('${task._id}')">&times;</span>
-				// 			<input type="text" placeholder="Name To-do" class="col-25" id="name" value="${task.name}"> <br>
-				// 			<textarea id="description" cols="50" rows="5" placeholder="description....">${task.description}</textarea>
-				// 			<br>
-				// 			${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}
-				// 			<br>
-				// 			<span style="cursor:pointer; padding-right:50px;" onclick="doneTask('${task._id}','1')">Done Task</span> 
-				// 			<span style="cursor:pointer; padding-left:50px;" >Update Task</span>
-				// 		</div>
-				// 	</div>
-				// 	`
-				// )
-				$('#cards').append(`
+				$('#notDoneYet').append(`
 				<div class="col s12 m6 l4">
 				<div class="card">
 					<div class="card-content white-text">
@@ -140,7 +134,6 @@ function doneTask(taskId, status) {
 		})
 		.done(function (updated) {
 			getTask()
-			// location.reload()
 		})
 		.fail(function (err) {
 			alert(JSON.stringify(err))

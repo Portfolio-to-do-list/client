@@ -119,7 +119,8 @@
                         <input type='password' placeholder='Password' id="password" class='input-line full-width'>
                     </div>
                     <div class='spacing'>Dont have an account? <span class='highlight' onclick="registerPage()">Register</span><br>
-                        or continue with <span class='highlight' onclick="checkLoginState()">Facebook </span> and <br>
+                        or continue with <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+                        </fb:login-button> and <br>
                         <center>
                             <div class="g-signin2" data-onsuccess="onSignIn"></div>
                         </center>
