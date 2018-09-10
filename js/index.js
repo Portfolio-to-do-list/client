@@ -26,13 +26,13 @@ let token = localStorage.getItem('token')
 let name = localStorage.getItem('name')
 
 if (!token) {
-	window.location.replace('http://localhost:8080/login')
+	window.location.replace('https://todo-fancy-1536427031886.firebaseapp.com/login')
 }
 
 function logout() {
 	localStorage.clear()
 	location.reload()
-	document.location.href = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:8080/"
+	document.location.href = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://todo-fancy-1536427031886.firebaseapp.com/"
 }
 
 $.ajax({
