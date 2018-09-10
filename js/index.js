@@ -62,7 +62,7 @@ $('#slide-menu').append(
 function getTask(){
 	$.ajax({
 		method: 'GET',
-		url: `http://localhost:3000/api/get-list?token=${token}`
+		url: `https://obscure-ravine-84067.herokuapp.com/api/get-list?token=${token}`
 	})
 	.done(function (tasks) {
 		let totalLeft = 0
@@ -127,7 +127,7 @@ getTask()
 function updateTask(taskId, status) {
 	$.ajax({
 			method: 'PUT',
-			url: `http://localhost:3000/api/edit-todo?token=${token}`,
+			url: `https://obscure-ravine-84067.herokuapp.com/api/edit-todo?token=${token}`,
 			data: {
 				todoId: taskId,
 				status: status
@@ -147,7 +147,7 @@ $('input').keypress(function (e) {
 		if(value !== ''){
 			$.ajax({
 				method: 'POST',
-				url: `http://localhost:3000/api/create-todo?token=${token}`,
+				url: `https://obscure-ravine-84067.herokuapp.com/api/create-todo?token=${token}`,
 				data: {
 					task: value
 				}
@@ -166,7 +166,7 @@ $('input').keypress(function (e) {
 function removeTask(id) {
 	$.ajax({
 			method: 'DELETE',
-			url: `http://localhost:3000/api/remove-todo?token=${token}`,
+			url: `https://obscure-ravine-84067.herokuapp.com/api/remove-todo?token=${token}`,
 			data: {
 				todoId: id
 			}
@@ -187,7 +187,7 @@ $('#createTodo').click(function(event){
 	if(name !== ''){
 		$.ajax({
 			method: 'POST',
-			url: `http://localhost:3000/api/create-todo?token=${token}`,
+			url: `https://obscure-ravine-84067.herokuapp.com/api/create-todo?token=${token}`,
 			data:{
 				name: name,
 				description: description,

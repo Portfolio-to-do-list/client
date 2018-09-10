@@ -44,7 +44,7 @@
                 let token = response.authResponse.accessToken
                 $.ajax({
                         method: 'POST',
-                        url: 'http://localhost:3000/loginWithFacebook',
+                        url: 'https://obscure-ravine-84067.herokuapp.com/loginWithFacebook',
                         data: {
                             token: token
                         }
@@ -72,7 +72,7 @@
             let email = profile.getEmail()
             $.ajax({
                 method: 'GET',
-                url: `http://localhost:3000/loginWithGoogle?token=${token}`
+                url: `https://obscure-ravine-84067.herokuapp.com/loginWithGoogle?token=${token}`
             })
             .done(function(result){
                 localStorage.setItem('token', result.token)
@@ -168,7 +168,7 @@
             let password = $('#password').val()
             $.ajax({
                     method: 'POST',
-                    url: 'http://localhost:3000/login',
+                    url: 'https://obscure-ravine-84067.herokuapp.com/login',
                     data: {
                         email: email,
                         password: password
