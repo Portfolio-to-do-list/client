@@ -50,7 +50,7 @@
                 })
                 .done(result => {
                     localStorage.setItem('token', result.token)
-                    window.location.replace('https://todo-fancy-1536427031886.firebaseapp.com')
+                    window.location.replace('/')
                 })
                 .fail(err => {
                     alert(JSON.stringify(err))
@@ -75,7 +75,7 @@
             .done(function(result){
                 localStorage.setItem('token', result.token)
                 localStorage.setItem('name', result.name)
-                window.location.replace('https://todo-fancy-1536427031886.firebaseapp.com')
+                window.location.replace('/')
             })
             .fail(function(err){
                 console.log(err)
@@ -86,7 +86,7 @@
             localStorage.clear()
         }
         function loginPage(){
-            window.location.replace('https://todo-fancy-1536427031886.firebaseapp.com/login/')            
+            window.location.replace('/login/')            
         }
     </script>
     <div class='bold-line'></div>
@@ -141,7 +141,7 @@
     <script>
         let token = localStorage.getItem('token')
         if (token) {
-            window.location.replace('https://todo-fancy-1536427031886.firebaseapp.com')
+            window.location.replace('/')
         }
 
         $('#notification').hide()
@@ -170,7 +170,7 @@
                 }
             })
             .done(function(){
-                window.location.replace('https://todo-fancy-1536427031886.firebaseapp.com/login')
+                window.location.replace('/login')
             })
             .fail(function(err){
                 // console.log(err)

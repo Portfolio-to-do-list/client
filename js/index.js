@@ -26,7 +26,7 @@ let token = localStorage.getItem('token')
 let name = localStorage.getItem('name')
 
 if (!token) {
-	window.location.replace('https://todo-fancy-1536427031886.firebaseapp.com/login')
+	window.location.replace('/login')
 }
 
 function logout() {
